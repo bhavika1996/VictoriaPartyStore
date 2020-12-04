@@ -1,0 +1,2 @@
+# VictoriaPartyStore
+Android Project - ecommerce
