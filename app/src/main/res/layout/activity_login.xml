@@ -17,12 +17,12 @@
             android:elevation="15sp"
             android:ellipsize="middle"
             android:ems="12"
+            android:hint="Name"
             android:inputType="textPersonName"
             android:outlineProvider="none"
             android:padding="10sp"
             android:shadowRadius="5"
             android:soundEffectsEnabled="false"
-            android:text="Name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,16 +30,16 @@
             app:layout_constraintVertical_bias="0.537" />
 
         <EditText
-            android:id="@+id/Password"
+            android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/roundcorner"
             android:ems="12"
+            android:hint="Password"
             android:inputType="textPassword"
             android:padding="10sp"
-            android:text="Password"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
@@ -97,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/SignInButton"
+            android:id="@+id/signInButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/roundbutton"
@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Password"
+            app:layout_constraintTop_toBottomOf="@+id/password"
             app:layout_constraintVertical_bias="0.596" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
