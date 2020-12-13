@@ -119,24 +119,24 @@ public class Data {
                                 inventory.setQtn(invnetoryRes.getInt("quantity"));
                                 inventory.setImageUrl(invnetoryRes.getString("imageUrl"));
 
-                                JSONArray reviewsRes = invnetoryRes.getJSONArray("reviews");
-
-                                if(reviewsRes != null && reviewsRes.length() > 0) {
-
-                                    Review[] reviews = new Review[reviewsRes.length()];
-
-                                    for (int j = 0; j < reviewsRes.length(); j++) {
-
-                                        JSONObject reviewRes = reviewsRes.getJSONObject(j);
-                                        reviews[j] = new Review();
-
-                                        reviews[j].set_id(reviewRes.getString("_id"));
-                                        reviews[j].setDescription(reviewRes.getString("description"));
-                                        reviews[j].setImage(reviewRes.getString("image"));
-                                        reviews[j].setUserId(reviewRes.getString("userId"));
-                                    }
-                                    inventory.setReviews(reviews);
-                                }
+//                                JSONArray reviewsRes = invnetoryRes.getJSONArray("reviews");
+//
+//                                if(reviewsRes != null && reviewsRes.length() > 0) {
+//
+//                                    Review[] reviews = new Review[reviewsRes.length()];
+//
+//                                    for (int j = 0; j < reviewsRes.length(); j++) {
+//
+//                                        JSONObject reviewRes = reviewsRes.getJSONObject(j);
+//                                        reviews[j] = new Review();
+//
+//                                        reviews[j].set_id(reviewRes.getString("_id"));
+//                                        reviews[j].setDescription(reviewRes.getString("description"));
+//                                        reviews[j].setImage(reviewRes.getString("image"));
+//                                        reviews[j].setUserId(reviewRes.getString("userId"));
+//                                    }
+//                                    inventory.setReviews(reviews);
+//                                }
                                 inventories.add(inventory);
                             }
                             callback.onSuccess(inventories);
