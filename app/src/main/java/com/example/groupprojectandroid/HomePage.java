@@ -40,23 +40,21 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
 
-        Data.GetUser(HomePage.this, "123",new VolleyCallback() {
-
+        Data.GetInventories(HomePage.this, new VolleyCallback() {
             @Override
-            public void onSuccess(Object resUser)  {
+            public void onSuccess(Object result) {
 
-                User user = (User) resUser;
-                Toast.makeText(HomePage.this, user.getEmail(), Toast.LENGTH_LONG).show();
+                int i =0;
             }
 
             @Override
             public void onError(VolleyError error) {
 
-                error.printStackTrace();
             }
         });
+
+        drawerLayout = findViewById(R.id.drawer_layout);
     }
 
     public void ClickMenu(View view) {

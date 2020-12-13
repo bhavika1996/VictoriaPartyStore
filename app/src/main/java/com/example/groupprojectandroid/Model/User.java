@@ -6,10 +6,20 @@ public class User {
 
     private String _id;
     private String firstName;
-    private String lastNamel;
+    private String lastName;
     private String role;
     private String email;
     private String password;
+
+    public User(){}
+    public User( String firstName, String lastName, String email, String password, String role) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+    }
 
     public String get_id() {
         return _id;
@@ -27,12 +37,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getLastNamel() {
-        return lastNamel;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNamel(String lastNamel) {
-        this.lastNamel = lastNamel;
+    public void setLastName(String lastNamel) {
+        this.lastName = lastNamel;
     }
 
     public String getRole() {
