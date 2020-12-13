@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.groupprojectandroid.Model.Inventory;
 import com.example.groupprojectandroid.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class HomePage extends AppCompatActivity {
 
@@ -40,12 +43,15 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        final TextView tv = findViewById(R.id.hometxt);
 
         Data.GetInventories(HomePage.this, new VolleyCallback() {
             @Override
             public void onSuccess(Object result) {
 
-                int i =0;
+                ArrayList<Inventory> inventories = ( ArrayList<Inventory>) result;
+
+                tv.setText(inventories.get(0).getName());
             }
 
             @Override
@@ -53,6 +59,21 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+
+//        Data.GetInventory(HomePage.this, "5fce8294d4ee0c3a24655d09",new VolleyCallback() {
+//            @Override
+//            public void onSuccess(Object result) {
+//
+//               Inventory inventory= (Inventory) result;
+//
+//               tv.setText(inventory.getName());
+//            }
+//
+//            @Override
+//            public void onError(VolleyError error) {
+//
+//            }
+//        });
 
         drawerLayout = findViewById(R.id.drawer_layout);
     }

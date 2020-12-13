@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.groupprojectandroid.Model.Inventory;
+import com.example.groupprojectandroid.Model.Review;
 import com.example.groupprojectandroid.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -33,27 +35,111 @@ import java.util.Map;
 public class Data {
 
     private static String apiURL = "https://party-store-android-api.herokuapp.com/";
-    private static String userAPIURL = apiURL + "api/users";
-    private static String inventoryAPIURL = apiURL + "api/inventory";
-    private static String loginURl = apiURL + "login/user";
+    private static String userAPIURL = apiURL + "api/users/";
+    private static String inventoryAPIURL = apiURL + "api/inventories/";
+    private static String loginURl = apiURL + "login/user/";
     private static String token;
     public static String name;
+    public static String userId;
+
+    public static void GetInventory(final Context context, String inventoryId, final VolleyCallback callback) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, (inventoryAPIURL + inventoryId), null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject invnetoryRes) {
+
+                Inventory inventory = new Inventory();
+                try {
+
+                    inventory.set_id(invnetoryRes.getString("_id"));
+                    inventory.setName(invnetoryRes.getString("name"));
+                    inventory.setCategory(invnetoryRes.getString("category"));
+                    inventory.setType(invnetoryRes.getString("type"));
+                    inventory.setQtn(invnetoryRes.getInt("quantity"));
+                    inventory.setImageUrl(invnetoryRes.getString("imageUrl"));
+
+                    JSONArray reviewsRes = invnetoryRes.getJSONArray("reviews");
+
+                    if(reviewsRes != null && reviewsRes.length() > 0){
+
+                        Review[] reviews = new Review[reviewsRes.length()];
+
+                        for (int j = 0; j < reviewsRes.length(); j++) {
+
+                            JSONObject reviewRes = reviewsRes.getJSONObject(j);
+                            reviews[j] = new Review();
+
+                            reviews[j].set_id(reviewRes.getString("_id"));
+                            reviews[j].setDescription(reviewRes.getString("description"));
+                            reviews[j].setImage(reviewRes.getString("image"));
+                            reviews[j].setUserId(reviewRes.getString("userId"));
+                        }
+                        inventory.setReviews(reviews);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                callback.onSuccess(inventory);
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+                callback.onError(error);
+            }
+        });
+
+        queue.add(request);
+    }
 
     public static void GetInventories(final Context context, final VolleyCallback callback) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        final HashMap<String, String> inventories = new HashMap<>();
-
+        final ArrayList<Inventory> inventories = new ArrayList<>();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, inventoryAPIURL, null,
                 new Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
 
+                            Inventory inventory = new Inventory();
+
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject employee = response.getJSONObject(i);
-                                String name = employee.getString("firstName");
+                                JSONObject invnetoryRes = response.getJSONObject(i);
+
+                                inventory.set_id(invnetoryRes.getString("_id"));
+                                inventory.setName(invnetoryRes.getString("name"));
+                                inventory.setCategory(invnetoryRes.getString("category"));
+                                inventory.setType(invnetoryRes.getString("type"));
+                                inventory.setQtn(invnetoryRes.getInt("quantity"));
+                                inventory.setImageUrl(invnetoryRes.getString("imageUrl"));
+
+                                JSONArray reviewsRes = invnetoryRes.getJSONArray("reviews");
+
+                                if(reviewsRes != null && reviewsRes.length() > 0) {
+
+                                    Review[] reviews = new Review[reviewsRes.length()];
+
+                                    for (int j = 0; j < reviewsRes.length(); j++) {
+
+                                        JSONObject reviewRes = reviewsRes.getJSONObject(j);
+                                        reviews[j] = new Review();
+
+                                        reviews[j].set_id(reviewRes.getString("_id"));
+                                        reviews[j].setDescription(reviewRes.getString("description"));
+                                        reviews[j].setImage(reviewRes.getString("image"));
+                                        reviews[j].setUserId(reviewRes.getString("userId"));
+                                    }
+                                    inventory.setReviews(reviews);
+                                }
+                                inventories.add(inventory);
                             }
+                            callback.onSuccess(inventories);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i("Get", "Error in response");
@@ -66,8 +152,10 @@ public class Data {
                 error.printStackTrace();
                 Toast.makeText(context, "Error in Req", Toast.LENGTH_SHORT).show();
                 Log.i("Get", "Error in request");
+                callback.onError(error);
             }
         });
+        queue.add(request);
     }
 
     public static void LoginUser(final Context context, String email, String password, final VolleyCallback callback) {
@@ -104,6 +192,7 @@ public class Data {
                             user.setPassword(response.getJSONObject("user").getString("password"));
 
                             Data.name = user.getFirstName() + " " + user.getLastName();
+                            Data.userId = response.getJSONObject("user").getString("_id");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

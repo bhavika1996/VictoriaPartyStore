@@ -16,6 +16,7 @@
             layout="@layout/main_toolbar"/>
 
         <TextView
+            android:id="@+id/hometxt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/pexels_natalie_3371094"

@@ -36,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.signInButton);
         dialog = new LoadingDialog(LoginActivity.this);
 
+        if(loginButton == null){
+
+            Toast.makeText(LoginActivity.this, "error login", Toast.LENGTH_SHORT).show();
+        }
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 
