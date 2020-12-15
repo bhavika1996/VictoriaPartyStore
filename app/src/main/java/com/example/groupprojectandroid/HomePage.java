@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.groupprojectandroid.Model.Inventory;
 import com.example.groupprojectandroid.Model.User;
 import com.google.gson.Gson;
@@ -37,43 +40,20 @@ public class HomePage extends AppCompatActivity {
 
     //initialize variable
     DrawerLayout drawerLayout;
+    ImageView offers1, offers2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        offers1 = findViewById(R.id.offers1);
+        offers2 = findViewById(R.id.offers2);
 
-        final TextView tv = findViewById(R.id.hometxt);
+        Glide.with(this).load("https://storage.googleapis.com/party_store/c3.jpg")
+                .apply(new RequestOptions().override(600, 500)).into(offers1);
 
-        Data.GetInventories(HomePage.this, new VolleyCallback() {
-            @Override
-            public void onSuccess(Object result) {
-
-                ArrayList<Inventory> inventories = ( ArrayList<Inventory>) result;
-
-                tv.setText(inventories.get(0).getName());
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-
-//        Data.GetInventory(HomePage.this, "5fce8294d4ee0c3a24655d09",new VolleyCallback() {
-//            @Override
-//            public void onSuccess(Object result) {
-//
-//               Inventory inventory= (Inventory) result;
-//
-//               tv.setText(inventory.getName());
-//            }
-//
-//            @Override
-//            public void onError(VolleyError error) {
-//
-//            }
-//        });
+        Glide.with(this).load("https://storage.googleapis.com/party_store/c4.jpg")
+                .apply(new RequestOptions().override(600, 500)).into(offers2);
 
         drawerLayout = findViewById(R.id.drawer_layout);
     }

@@ -27,20 +27,48 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.volley.Response.*;
+
 
 public class Data {
 
     private static String apiURL = "https://party-store-android-api.herokuapp.com/";
     private static String userAPIURL = apiURL + "api/users/";
     private static String inventoryAPIURL = apiURL + "api/inventories/";
+    private static String reviewAPIURL = inventoryAPIURL + "review/";
     private static String loginURl = apiURL + "login/user/";
-    private static String token;
-    public static String name;
-    public static String userId;
+
+    public UserDetailsSingleton userDetailsSingleton = UserDetailsSingleton.getInstance();
+
+
+    public static void DeleteReview(final Context context, String inventoryId, String reviewId, final VolleyCallback callback) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, reviewAPIURL, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                callback.onSuccess(true);
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+                callback.onError(error);
+            }
+        });
+
+        queue.add(request);
+    }
 
     public static void GetInventory(final Context context, String inventoryId, final VolleyCallback callback) {
 
@@ -62,7 +90,7 @@ public class Data {
 
                     JSONArray reviewsRes = invnetoryRes.getJSONArray("reviews");
 
-                    if(reviewsRes != null && reviewsRes.length() > 0){
+                    if (reviewsRes != null && reviewsRes.length() > 0) {
 
                         Review[] reviews = new Review[reviewsRes.length()];
 
@@ -84,6 +112,7 @@ public class Data {
                 }
 
                 callback.onSuccess(inventory);
+
             }
         }, new ErrorListener() {
             @Override
@@ -96,6 +125,7 @@ public class Data {
 
         queue.add(request);
     }
+
 
     public static void GetInventories(final Context context, final VolleyCallback callback) {
 
@@ -139,6 +169,7 @@ public class Data {
 //                                }
                                 inventories.add(inventory);
                             }
+
                             callback.onSuccess(inventories);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -185,17 +216,17 @@ public class Data {
                         Object res = response;
 
                         try {
+
                             user.set_id(response.getJSONObject("user").getString("_id"));
                             user.setEmail(response.getJSONObject("user").getString("email"));
                             user.setFirstName(response.getJSONObject("user").getString("firstName"));
                             user.setLastName(response.getJSONObject("user").getString("lastName"));
                             user.setPassword(response.getJSONObject("user").getString("password"));
-
-                            Data.name = user.getFirstName() + " " + user.getLastName();
-                            Data.userId = response.getJSONObject("user").getString("_id");
                         } catch (JSONException e) {
+
                             e.printStackTrace();
                         }
+
                         callback.onSuccess(user);
                     }
                 }, new ErrorListener() {
@@ -233,6 +264,7 @@ public class Data {
                     public void onResponse(JSONObject response) {
 
                         callback.onSuccess(response);
+
                     }
                 }, new ErrorListener() {
 

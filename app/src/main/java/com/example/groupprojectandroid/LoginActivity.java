@@ -3,7 +3,9 @@ package com.example.groupprojectandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.groupprojectandroid.Model.User;
+import com.google.gson.JsonObject;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.signInButton);
         dialog = new LoadingDialog(LoginActivity.this);
 
-        if(loginButton == null){
+        if (loginButton == null) {
 
             Toast.makeText(LoginActivity.this, "error login", Toast.LENGTH_SHORT).show();
         }
@@ -51,13 +55,13 @@ public class LoginActivity extends AppCompatActivity {
                 final String email = loginEmail.getText().toString();
                 final String password = loginPassword.getText().toString();
 
-                if (email.equals(null)  || email.equals("")) {
+                if (email.equals(null) || email.equals("")) {
 
                     Toast.makeText(LoginActivity.this, "Email can not be empty!!", Toast.LENGTH_SHORT).show();
                     loginEmail.requestFocus();
                     dialog.dismissLoadingDialog();
                     return;
-                } else if (password.equals(null)  || password.equals("")) {
+                } else if (password.equals(null) || password.equals("")) {
 
                     Toast.makeText(LoginActivity.this, "Password can not be empty!!", Toast.LENGTH_SHORT).show();
                     loginPassword.requestFocus();
@@ -65,16 +69,21 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                Data.LoginUser(LoginActivity.this, email, password,new VolleyCallback() {
+                Data.LoginUser(LoginActivity.this, email, password, new VolleyCallback() {
                     @Override
                     public void onSuccess(Object result) {
 
                         User user = (User) result;
 
-                            Intent i = new Intent(LoginActivity.this, HomePage.class);
-                            i.putExtra("email", email);
-                            startActivity(i);
-                            dialog.dismissLoadingDialog();
+                        Intent i = new Intent(LoginActivity.this, HomePage.class);
+                        i.putExtra("email", email);
+
+                        UserDetailsSingleton userDetailsSingleton = UserDetailsSingleton.getInstance();
+                        userDetailsSingleton.userDetails.put("username", user.getFirstName());
+                        userDetailsSingleton.userDetails.put("userId", user.get_id());
+                        dialog.dismissLoadingDialog();
+
+                        startActivity(i);
                     }
 
                     @Override

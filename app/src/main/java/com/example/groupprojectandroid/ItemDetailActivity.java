@@ -1,13 +1,15 @@
 package com.example.groupprojectandroid;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,16 +23,26 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.groupprojectandroid.Model.Inventory;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class ItemDetailActivity extends AppCompatActivity {
 
     ImageView productImage;
     TextView productName;
     TextView productCategory;
     TextView productPrice;
+    Button addReviewButton;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    Inventory inventory;
+    String inventoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +53,18 @@ public class ItemDetailActivity extends AppCompatActivity {
         productName = findViewById(R.id.product_name);
         productCategory = findViewById(R.id.product_cat);
         productPrice = findViewById(R.id.product_price);
+        addReviewButton = findViewById(R.id.addReviewButton);
 
         recyclerView = findViewById(R.id.reviewRecyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        Data.GetInventory(ItemDetailActivity.this, "5fce8294d4ee0c3a24655d09", new VolleyCallback() {
+        inventoryId = "5fcd7dd578f8160449c9a004";
+        Data.GetInventory(ItemDetailActivity.this, inventoryId, new VolleyCallback() {
             @Override
             public void onSuccess(Object result) {
 
-                Inventory inventory = (Inventory) result;
+                inventory = (Inventory) result;
 
                 Glide.with(ItemDetailActivity.this).load(inventory.getImageUrl()).apply(new RequestOptions().override(600, 500)).into(productImage);
 
@@ -58,15 +72,24 @@ public class ItemDetailActivity extends AppCompatActivity {
                 productCategory.setText("Category: " + inventory.getCategory());
                 productPrice.setText("Price: " + "10 CAD");
 
-                //mAdapter = new MyAdapter(myDataset);
+                UserDetailsSingleton userDetailsSingleton = UserDetailsSingleton.getInstance();
+                mAdapter = new ReviewAdapter(ItemDetailActivity.this, inventory.getReviews(), inventoryId, userDetailsSingleton.userDetails.get("username"));
                 recyclerView.setAdapter(mAdapter);
-
             }
 
             @Override
             public void onError(VolleyError error) {
 
                 Toast.makeText(ItemDetailActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        addReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ItemDetailActivity.this, AddReviewActivity.class);
+                startActivity(i);
             }
         });
     }

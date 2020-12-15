@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardnumber1"
+        app:layout_constraintTop_toBottomOf="@+id/CardNumber"
         app:layout_constraintVertical_bias="0.13"
         tools:layout_conversion_absoluteHeight="14dp"
         tools:layout_conversion_absoluteWidth="82dp"
@@ -43,22 +43,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardnumber1"
+        app:layout_constraintTop_toBottomOf="@+id/CardNumber"
         app:layout_constraintVertical_bias="0.179"
         tools:layout_conversion_absoluteHeight="14dp"
         tools:layout_conversion_absoluteWidth="82dp"
         tools:text="CVV" />
 
     <EditText
-        android:id="@+id/editTextTextPostalAddress5"
+        android:id="@+id/userAddress1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="24"
         android:hint="Address Line (optional)"
         android:inputType="textPostalAddress"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPostalAddress"
+        app:layout_constraintBottom_toTopOf="@+id/userTown"
+        app:layout_constraintStart_toStartOf="@+id/userAddress"
         app:layout_constraintTop_toBottomOf="@+id/orderTotal"
         app:layout_constraintVertical_bias="0.909"
         tools:layout_conversion_absoluteHeight="45dp"
@@ -84,14 +84,14 @@
         tools:layout_conversion_absoluteWidth="52dp" />
 
     <EditText
-        android:id="@+id/editTextTextPostalAddress"
+        android:id="@+id/userAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="24"
         android:hint="Address"
         android:inputType="textPostalAddress"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPostalAddress5"
+        app:layout_constraintBottom_toTopOf="@+id/userAddress1"
         app:layout_constraintStart_toStartOf="@+id/personName"
         app:layout_constraintTop_toBottomOf="@+id/orderTotal"
         app:layout_constraintVertical_bias="0.842"
@@ -164,7 +164,7 @@
         tools:layout_conversion_absoluteWidth="82dp" />
 
     <EditText
-        android:id="@+id/cardnumber1"
+        android:id="@+id/CardNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="92dp"
@@ -176,7 +176,7 @@
         android:shadowColor="#3A3A3A"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate2"
+        app:layout_constraintBottom_toTopOf="@+id/ExpDate"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
@@ -187,7 +187,7 @@
         tools:text="Card Number" />
 
     <EditText
-        android:id="@+id/editTextNumber4"
+        android:id="@+id/CvvNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:digits="3"
@@ -199,7 +199,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.443"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate2"
+        app:layout_constraintStart_toEndOf="@+id/ExpDate"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.832"
         tools:layout_conversion_absoluteHeight="40dp"
@@ -207,7 +207,7 @@
         tools:text="CVV" />
 
     <EditText
-        android:id="@+id/editTextDate2"
+        android:id="@+id/ExpDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:digits="5"
@@ -240,7 +240,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.925"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardnumber1"
+        app:layout_constraintTop_toBottomOf="@+id/CardNumber"
         app:layout_constraintVertical_bias="0.851"
         tools:layout_conversion_absoluteHeight="48dp"
         tools:layout_conversion_absoluteWidth="88dp" />
@@ -264,7 +264,7 @@
         tools:layout_conversion_absoluteWidth="0dp" />
 
     <EditText
-        android:id="@+id/editTextPhone2"
+        android:id="@+id/userNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:digits="10"
@@ -274,7 +274,7 @@
         android:phoneNumber="true"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintEnd_toStartOf="@+id/userEmail"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/orderTotal"
@@ -297,7 +297,7 @@
         android:shadowColor="#042925"
         android:shadowRadius="0"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPostalAddress"
+        app:layout_constraintBottom_toTopOf="@+id/userAddress"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/orderTotal"
         app:layout_constraintVertical_bias="0.836"
@@ -305,29 +305,29 @@
         tools:layout_conversion_absoluteWidth="210dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/userTown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Town/City"
         android:inputType="textPersonName"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhone2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPostalAddress5"
+        app:layout_constraintBottom_toTopOf="@+id/userNumber"
+        app:layout_constraintStart_toStartOf="@+id/userAddress1"
         app:layout_constraintTop_toBottomOf="@+id/orderTotal"
         app:layout_constraintVertical_bias="0.949"
         tools:layout_conversion_absoluteHeight="45dp"
         tools:layout_conversion_absoluteWidth="210dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/userPostalCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Postal Code"
         android:inputType="textPersonName"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhone2"
+        app:layout_constraintBottom_toTopOf="@+id/userNumber"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -344,7 +344,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -356,7 +356,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.778"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4"
+        app:layout_constraintTop_toBottomOf="@+id/userPostalCode"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.Group
