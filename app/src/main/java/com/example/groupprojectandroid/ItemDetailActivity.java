@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 
 public class ItemDetailActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     TextView productName;
     TextView productCategory;
     TextView productPrice;
-    Button addReviewButton;
+    Button addReviewButton, buyNow;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -54,12 +55,20 @@ public class ItemDetailActivity extends AppCompatActivity {
         productCategory = findViewById(R.id.product_cat);
         productPrice = findViewById(R.id.product_price);
         addReviewButton = findViewById(R.id.addReviewButton);
+        buyNow = findViewById(R.id.buy_now);
 
         recyclerView = findViewById(R.id.reviewRecyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        inventoryId = "5fcd7dd578f8160449c9a004";
+        inventoryId = getIntent().getStringExtra("inventoryId");
+
+        if (inventoryId == null || inventoryId == "" || inventoryId == " ") {
+
+            Intent i = new Intent(ItemDetailActivity.this, ProductListActivity.class);
+            startActivity(i);
+        }
+
         Data.GetInventory(ItemDetailActivity.this, inventoryId, new VolleyCallback() {
             @Override
             public void onSuccess(Object result) {
@@ -84,11 +93,22 @@ public class ItemDetailActivity extends AppCompatActivity {
             }
         });
 
+
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ItemDetailActivity.this, CheckoutActivity.class);
+                startActivity(i);
+            }
+        });
+
         addReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent i = new Intent(ItemDetailActivity.this, AddReviewActivity.class);
+                i.putExtra("inventoryId", inventoryId);
                 startActivity(i);
             }
         });

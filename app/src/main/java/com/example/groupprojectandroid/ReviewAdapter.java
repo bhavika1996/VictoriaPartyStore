@@ -1,11 +1,13 @@
 package com.example.groupprojectandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
 
         this.reviews = reviews;
         this.username = username;
-        this.userId = userDetailsSingleton.userDetails.get("username");
+        this.userId = userDetailsSingleton.userDetails.get("userId");
         this.inventoryId = inventoryId;
         this.context = context;
     }
@@ -44,18 +46,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
 
-        if (reviews[position].getUserId().equals(userId)) {
+        if (reviews[position].getUserId().equals(userDetailsSingleton.userDetails.get("userId"))) {
 
-            holder.writerName.setText(username);
+            holder.writerName.setText(userDetailsSingleton.userDetails.get("username"));
             holder.reviewDeleteBtn.setVisibility(ViewGroup.VISIBLE);
-            holder.reviewDeleteBtn.setHint(reviews[position].get_id());
         } else {
 
             holder.writerName.setText("Annonymous");
             holder.reviewDeleteBtn.setVisibility(ViewGroup.GONE);
         }
 
+        holder.reviewId.setText(reviews[position].get_id());
         holder.description.setText(reviews[position].getDescription());
+
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     static class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView writerName;
-        TextView description;
+        TextView description, reviewId;
         Button reviewDeleteBtn;
         Context context;
         String inventoryId;
@@ -81,16 +84,25 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
             writerName = itemView.findViewById(R.id.writerName);
             description = itemView.findViewById(R.id.reviewDescription);
             reviewDeleteBtn = itemView.findViewById(R.id.reviewDeleteButton);
+            reviewId = itemView.findViewById(R.id.reviewId);
             reviewDeleteBtn.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
-            Data.DeleteReview(context, inventoryId, reviewDeleteBtn.getHint().toString(), new VolleyCallback() {
+            //Toast.makeText(context, reviewId.getText().toString(), Toast.LENGTH_LONG).show();
+
+            Data.DeleteReview(context, inventoryId, reviewId.getText().toString(), new VolleyCallback() {
                         @Override
                         public void onSuccess(Object result) {
 
+                            if ((Boolean) result) {
+
+                                Intent i = new Intent(context, ItemDetailActivity.class);
+                                context.startActivity(i);
+                                i.putExtra("inventoryId", inventoryId);
+                            }
                         }
 
                         @Override

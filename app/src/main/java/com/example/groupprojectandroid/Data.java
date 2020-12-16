@@ -44,14 +44,54 @@ public class Data {
     private static String reviewAPIURL = inventoryAPIURL + "review/";
     private static String loginURl = apiURL + "login/user/";
 
-    public UserDetailsSingleton userDetailsSingleton = UserDetailsSingleton.getInstance();
 
+
+
+    public static void AddReview(final Context context, String inventoryId, String description, String userId, final VolleyCallback callback) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        String deleteReviewURL = reviewAPIURL + inventoryId;
+        UserDetailsSingleton userDetailsSingleton = UserDetailsSingleton.getInstance();
+
+        JSONObject postData = new JSONObject();
+
+        try {
+            //postData.put("userId", userDetailsSingleton.userDetails.get("userId"));
+            postData.put("description", description);
+            postData.put("userId", "5fcd1d1a68f4346ab4c99722");
+            postData.put("image", "https://storage.googleapis.com/party_store/ballons1.jpg");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, reviewAPIURL + inventoryId, postData, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                callback.onSuccess(true);
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+                callback.onError(error);
+            }
+        });
+
+        queue.add(request);
+    }
 
     public static void DeleteReview(final Context context, String inventoryId, String reviewId, final VolleyCallback callback) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, reviewAPIURL, null, new Response.Listener<JSONObject>() {
+        String deleteReviewURL = reviewAPIURL + inventoryId + "/" + reviewId;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, deleteReviewURL, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -258,7 +298,7 @@ public class Data {
         }
 
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.POST, userAPIURL, postData, new Listener<JSONObject>() {
+                (Request.Method.POST, apiURL + "signup/user", postData, new Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {

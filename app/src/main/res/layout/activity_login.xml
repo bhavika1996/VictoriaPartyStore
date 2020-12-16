@@ -39,7 +39,7 @@
             android:elevation="15sp"
             android:ellipsize="middle"
             android:ems="12"
-            android:hint="Name"
+            android:hint="Email"
             android:inputType="textPersonName"
             android:outlineProvider="none"
             android:padding="10sp"
@@ -122,8 +122,8 @@
 
         <Button
             android:id="@+id/signInButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="71dp"
+            android:layout_height="50dp"
             android:backgroundTint="#033070"
             android:elegantTextHeight="false"
             android:elevation="5dp"

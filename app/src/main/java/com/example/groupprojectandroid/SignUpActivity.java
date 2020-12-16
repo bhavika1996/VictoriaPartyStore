@@ -70,9 +70,9 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object result) {
 
-                User newUser = (User) result;
+                //User newUser = (User) result;
 
-                Toast.makeText(SignUpActivity.this, "onSuccess",Toast.LENGTH_SHORT ).show();
+                //Toast.makeText(SignUpActivity.this, "onSuccess",Toast.LENGTH_SHORT ).show();
 
                 Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(i);
